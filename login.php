@@ -13,7 +13,7 @@ foreach ($result as $row) {
 if(isset($_POST['form1'])) {
         
     if(empty($_POST['cust_email']) || empty($_POST['cust_password'])) {
-        $error_message = LANG_VALUE_132.'<br>';
+        $error_message .= 'Invalid email or password.<br>';
     } else {
         
         $cust_email = strip_tags($_POST['cust_email']);
@@ -29,21 +29,44 @@ if(isset($_POST['form1'])) {
         }
 
         if($total==0) {
-            $error_message .= LANG_VALUE_133.'<br>';
-        } else {
-            //using MD5 form
-            if( $row_password != md5($cust_password) ) {
-                $error_message .= LANG_VALUE_139.'<br>';
-            } else {
-                if($cust_status == 0) {
-                    $error_message .= LANG_VALUE_148.'<br>';
-                } else {
-                    $_SESSION['customer'] = $row;
-                    header("location: ".BASE_URL."dashboard.php");
-                }
-            }
-            
+    // Fix ##2: Generic error message (prevents user enumeration)
+    $error_message .= 'Invalid email or password.<br>';
+} else {
+    // Fix ##1: Secure password verification with bcrypt + migration
+    $password_valid = false;
+    
+    // Check if password is bcrypt (starts with $2y$) or old MD5
+    if (substr($row_password, 0, 4) === '$2y$') {
+        // Verify bcrypt hash
+        if (password_verify($cust_password, $row_password)) {
+            $password_valid = true;
         }
+    } else {
+        // Old MD5 hash - verify and migrate to bcrypt
+        if (md5($cust_password) === $row_password) {
+            $password_valid = true;
+            // Rehash to bcrypt for future logins
+            $new_hash = password_hash($cust_password, PASSWORD_BCRYPT);
+            $update_stmt = $pdo->prepare("UPDATE tbl_customer SET cust_password = ? WHERE cust_id = ?");
+            $update_stmt->execute(array($new_hash, $row['cust_id']));
+        }
+    }
+    
+    if (!$password_valid) {
+        // Fix ##2: Generic error message
+        $error_message .= 'Invalid email or password.<br>';
+    } else {
+        if($cust_status == 0) {
+            $error_message .= 'Invalid email or password.<br>';
+        } else {
+            // Fix ##5: Session regeneration + Fix #6: exit()
+            session_regenerate_id(true);
+            $_SESSION['customer'] = $row;
+            header("location: ".BASE_URL."dashboard.php");
+            exit(); // Critical- Stop script execution
+        }
+    }
+}    
     }
 }
 ?>
