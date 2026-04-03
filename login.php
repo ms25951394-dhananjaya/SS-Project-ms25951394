@@ -15,9 +15,9 @@ if(isset($_POST['form1'])) {
     if(empty($_POST['cust_email']) || empty($_POST['cust_password'])) {
         $error_message .= 'Invalid email or password.<br>';
     } else {
-        
-        $cust_email = strip_tags($_POST['cust_email']);
-        $cust_password = strip_tags($_POST['cust_password']);
+        // Fix ##3: inadequate input sanitization
+       $cust_email = filter_var(trim($_POST['cust_email']), FILTER_SANITIZE_EMAIL);
+       $cust_password = $_POST['cust_password'];
 
         $statement = $pdo->prepare("SELECT * FROM tbl_customer WHERE cust_email=?");
         $statement->execute(array($cust_email));
