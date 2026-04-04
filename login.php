@@ -90,12 +90,14 @@ if(isset($_POST['form1'])) {
                             <div class="col-md-4"></div>
                             <div class="col-md-4">
                                 <?php
+                               //##4 fixed cross site scripting(XSS)in success and error messages
                                 if($error_message != '') {
-                                    echo "<div class='error' style='padding: 10px;background:#f1f1f1;margin-bottom:20px;'>".$error_message."</div>";
+                                  echo "<div class='error' style='padding: 10px;background:#f1f1f1;margin-bottom:20px;'>".htmlspecialchars($error_message, ENT_QUOTES, 'UTF-8')."</div>";
                                 }
                                 if($success_message != '') {
-                                    echo "<div class='success' style='padding: 10px;background:#f1f1f1;margin-bottom:20px;'>".$success_message."</div>";
+                                  echo "<div class='success' style='padding: 10px;background:#f1f1f1;margin-bottom:20px;'>".htmlspecialchars($success_message, ENT_QUOTES, 'UTF-8')."</div>";
                                 }
+
                                 ?>
                                 <div class="form-group">
                                     <label for=""><?php echo LANG_VALUE_94; ?> *</label>
