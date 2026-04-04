@@ -63,7 +63,7 @@ if(isset($_POST['form1'])) {
             session_regenerate_id(true);
             $_SESSION['customer'] = $row;
             header("location: ".BASE_URL."dashboard.php");
-            exit(); // Critical- Stop script execution
+            exit(); // Critical- Stop script execution .
         }
     }
 }    
