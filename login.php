@@ -115,6 +115,16 @@ if(isset($_POST['form1'])) {
                             </div>
                         </div>                        
                     </form>
+                      <!-- Google OAuth Login Button -->
+                    <div style="text-align:center; margin: 30px 0; padding: 20px; border-top: 2px solid #f1f1f1;">
+                        <p style="color: #666; margin-bottom: 15px; font-weight: bold;">OR</p>
+                        <a href="google-config.php" style="display:inline-flex; align-items:center; background:#4285F4; color:white; padding:12px 24px; text-decoration:none; border-radius:5px; font-weight:bold; font-size:16px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                        <svg width="20" height="20" viewBox="0 0 20 20" style="margin-right:10px;" xmlns="http://www.w3.org/2000/svg">
+                               <path d="M18.1713 8.36791H17.5001V8.33325H10.0001V11.6666H14.7096C14.0225 13.607 12.1763 14.9999 10.0001 14.9999C7.23882 14.9999 5.00007 12.7612 5.00007 9.99992C5.00007 7.23867 7.23882 4.99992 10.0001 4.99992C11.2771 4.99992 12.4371 5.48033 13.3225 6.26575L15.6775 3.91075C14.1854 2.52158 12.1925 1.66658 10.0001 1.66658C5.39799 1.66658 1.66675 5.39783 1.66675 9.99992C1.66675 14.602 5.39799 18.3333 10.0001 18.3333C14.6021 18.3333 18.3334 14.602 18.3334 9.99992C18.3334 9.44117 18.2763 8.89575 18.1713 8.36791Z" fill="white"/>
+                        </svg>
+                             Login with Google
+                        </a>
+                    </div>
                 </div>                
             </div>
         </div>
