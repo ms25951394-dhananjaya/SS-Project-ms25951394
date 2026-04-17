@@ -27,8 +27,8 @@ foreach ($result as $row) {
         <h1>
             Search By: 
             <?php 
-                $search_text = strip_tags($_REQUEST['search_text']); 
-                echo $search_text; 
+                $search_text = htmlspecialchars($_REQUEST['search_text'], ENT_QUOTES, 'UTF-8');
+                echo $search_text;
             ?>            
         </h1>
     </div>
