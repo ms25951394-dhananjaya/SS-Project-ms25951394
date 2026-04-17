@@ -1,3 +1,9 @@
+W.K.S Dhananjaya
+ms25951394
+
+Github link to the original project:https://github.com/hammadshahir/PHP-MySQL-ecommerce-website.git
+Github link to the modified project:https://github.com/ms25951394-dhananjaya/SS-Project-ms25951394.git
+
 # A Complete PHP/MySQL based web application:
 
 
