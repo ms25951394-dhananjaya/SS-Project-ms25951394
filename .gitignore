@@ -1,5 +1,6 @@
 oauth-config.php
+vendor/
 composer.json
 composer.lock
 composer.phar
-vendor/
+*.log
