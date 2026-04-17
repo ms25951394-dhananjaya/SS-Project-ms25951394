@@ -27,6 +27,7 @@ foreach ($result as $row) {
         <h1>
             Search By: 
             <?php 
+            //fixed##7 xss in search bar.
                 $search_text = htmlspecialchars($_REQUEST['search_text'], ENT_QUOTES, 'UTF-8');
                 echo $search_text;
             ?>            
@@ -54,12 +55,15 @@ foreach ($result as $row) {
 
             $targetpage = BASE_URL.'search-result.php?search_text='.$_REQUEST['search_text'];   //your file name  (the name of this file)
             $limit = 12;                                 //how many items to show per page
-            $page = @$_GET['page'];
-            if($page) 
-                $start = ($page - 1) * $limit;          //first item to display on this page
-            else
-                $start = 0;
-            
+            //##8 fixed SQL injection.validate page parameter as integer.
+            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+            if($page < 1) $page = 1;
+
+            $start = ($page - 1) * $limit;
+
+              // Cast to integers to prevent SQL injection
+            $start = (int)$start;
+            $limit = (int)$limit;
 
             $statement = $pdo->prepare("SELECT * FROM tbl_product WHERE p_is_active=? AND p_name LIKE ? LIMIT $start, $limit");
             $statement->execute(array(1,$search_text));
